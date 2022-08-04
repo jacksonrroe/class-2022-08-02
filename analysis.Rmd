@@ -1,6 +1,6 @@
 ---
 title: "Social Capital"
-author: "David Kane"
+author: "Jackson Roe"
 date: "2022-08-02"
 output: html_document
 ---
@@ -20,7 +20,45 @@ ec <- read_rds("ec.rds")
 summary(ec)
 ```
 
+```{r}
+# my county
+ec |> 
+  filter(county_name == "Franklin, Ohio")
+```
 
+
+```{r}
+# could do x = log(x = pop2018)
+ec |> 
+  drop_na() |> 
+  ggplot(aes(x = pop2018, y = ec_county)) +
+    geom_point() +
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+    scale_x_log10() + 
+    labs(title = "Economic Connectedness (EC) of US Counties, by Population", 
+         subtitle = "No correlation between population and EC", 
+         x = "Population", 
+         y = "EC Score")
+```
+
+```{r}
+# trying to create a relationship variable and graph it, is not working as of now.
+
+ec |> 
+  drop_na() |> 
+  mutate(ec_population = pop2018 / ec_county) |> 
+  arrange(desc(ec_population)) |> 
+  ggplot(aes(x = ec_population)) +
+    geom_point() + 
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE)
+```
+
+
+```{r clean_data}
+x <- ec |> 
+  mutate(state = str_remove(county_name, ".*, "))
+
+```
 
 
 
