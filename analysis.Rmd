@@ -19,8 +19,8 @@ ec <- read_rds("ec.rds")
 
 ```{r}
 # my county
-ec |> 
-  filter(county_name == "Franklin, Ohio")
+# ec |> 
+ # filter(county_name == "Franklin, Ohio")
 ```
 
 
@@ -54,20 +54,6 @@ ec |>
          x = "Population",
          y = "Economic Connectedness")
 
-```
-
-
-
-```{r}
-# trying to create a relationship variable and graph it, is not working as of now.
-
-ec |> 
-  drop_na() |> 
-  mutate(ec_population = pop2018 / ec_county) |> 
-  arrange(desc(ec_population)) |> 
-  ggplot(aes(x = ec_population)) +
-    geom_point() + 
-    geom_smooth(method = "lm", formula = y ~ x, se = FALSE)
 ```
 
 
